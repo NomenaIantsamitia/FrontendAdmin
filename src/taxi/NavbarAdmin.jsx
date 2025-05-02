@@ -17,7 +17,7 @@ export default function NavbarAdmin() {
   return (
     <nav className="bg-[#0f172a] text-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
+      <div className="flex justify-between h-16 items-center fixed top-0 left-0 right-0 z-50 bg-[#0f172a] px-4">
           <div className="text-2xl font-bold text-yellow-400">Taxi Admin</div>
           <div className="hidden md:flex space-x-6">
             {links.map((link) => (
