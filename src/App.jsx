@@ -11,6 +11,7 @@ function App() {
     <NavbarAdmin />
     <Routes>
       <Route element={<NavbarAdmin/>}/>
+      <Route index element={<DashboardAdmin/>}/>
       <Route path='/dashboard' element = {<DashboardAdmin />} />
       <Route path='/statistics' element = {<Statistiques />} />
       <Route path='/clients' element = {<ClientsAdmin />} />
