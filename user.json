@@ -1,0 +1,348 @@
+{
+  "User Documents": [
+    {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2e1a1" },
+      "name": "Alice Johnson",
+      "email": "alice.johnson@example.com",
+      "password": "$2b$10$abcdefghijklmnopqrstuvwx.yz12345678901234567890",
+      "phone": "+261341234567",
+      "role": "client",
+      "isVerified": true,
+      "createdAt": { "$date": "2023-01-15T08:00:00.000Z" },
+      "updatedAt": { "$date": "2025-05-01T10:00:00.000Z" }
+    },
+    {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2e3c3" },
+      "name": "Bob Williams",
+      "email": "bob.williams@example.com",
+      "password": "$2b$10$ABCDEFGHIJKLMNOPQRSTUVWX.YZ98765432109876543210",
+      "phone": "+261321234567",
+      "role": "client",
+      "isVerified": true,
+      "createdAt": { "$date": "2023-02-20T09:30:00.000Z" },
+      "updatedAt": { "$date": "2025-05-02T14:00:00.000Z" }
+    },
+    {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2e5e5" },
+      "name": "Charlie Brown",
+      "email": "charlie.b@example.com",
+      "password": "$2b$10$QRSTUVWXYZabcdefghij.klmnopqrstuvwxyz12345",
+      "phone": "+261331234567",
+      "role": "client",
+      "isVerified": false,
+      "createdAt": { "$date": "2023-03-10T11:00:00.000Z" },
+      "updatedAt": { "$date": "2023-03-10T11:00:00.000Z" }
+    },
+     {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2e7a7" },
+      "name": "Diana Miller",
+      "email": "diana.m@example.com",
+      "password": "$2b$10$0123456789abcdefghij.klmnopqrstuvwxyzABCD",
+      "phone": "+261345678901",
+      "role": "client",
+      "isVerified": true,
+      "createdAt": { "$date": "2023-04-01T13:00:00.000Z" },
+      "updatedAt": { "$date": "2023-04-01T13:00:00.000Z" }
+    },
+    {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2ea01" },
+      "name": "Driver Alpha",
+      "email": "driver.alpha@example.com",
+      "password": "$2b$10$EjemploHashDriverA.abcdefghijklmnopqrstuvw",
+      "phone": "+261329876543",
+      "role": "chauffeur",
+      "isVerified": true,
+      "createdAt": { "$date": "2023-05-05T07:00:00.000Z" },
+      "updatedAt": { "$date": "2023-05-05T07:00:00.000Z" }
+    },
+    {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2eb02" },
+      "name": "Driver Beta",
+      "email": "driver.beta@example.com",
+      "password": "$2b$10$OtroEjemploHashDriverB.abcdefghijklmnopqrstu",
+      "phone": "+261349876543",
+      "role": "chauffeur",
+      "isVerified": true,
+      "createdAt": { "$date": "2023-05-06T07:30:00.000Z" },
+      "updatedAt": { "$date": "2023-05-06T07:30:00.000Z" }
+    },
+    {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2ec03" },
+      "name": "Driver Gamma",
+      "email": "driver.gamma@example.com",
+      "password": "$2b$10$FinalHashExampleDriverC.abcdefghijklmnopqrst",
+      "phone": "+261339876543",
+      "role": "chauffeur",
+      "isVerified": true,
+      "createdAt": { "$date": "2023-05-07T08:00:00.000Z" },
+      "updatedAt": { "$date": "2023-05-07T08:00:00.000Z" }
+    }
+  ],
+
+  "Taxi Documents": [
+    {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2e2b2" },
+      "driverId": { "$oid": "60d5f4f8b87cd850b4c2ea01" },
+      "licensePlate": "123 AB 01",
+      "model": "Berline",
+      "marque": "Toyota",
+      "color": "Jaune",
+      "status": "disponible",
+      "createdAt": { "$date": "2023-05-10T10:00:00.000Z" },
+      "updatedAt": { "$date": "2025-05-04T11:00:00.000Z" }
+    },
+    {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2e4d4" },
+      "driverId": { "$oid": "60d5f4f8b87cd850b4c2eb02" },
+      "licensePlate": "456 CD 02",
+      "model": "SUV",
+      "marque": "Nissan",
+      "color": "Blanc",
+      "status": "occupé",
+      "createdAt": { "$date": "2023-06-01T14:00:00.000Z" },
+      "updatedAt": { "$date": "2025-05-04T11:30:00.000Z" }
+    },
+    {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2e6f6" },
+      "driverId": { "$oid": "60d5f4f8b87cd850b4c2ec03" },
+      "licensePlate": "789 EF 03",
+      "model": "Compact",
+      "marque": "Renault",
+      "color": "Gris",
+      "status": "hors service",
+      "createdAt": { "$date": "2023-07-18T09:00:00.000Z" },
+      "updatedAt": { "$date": "2025-05-01T08:00:00.000Z" }
+    }
+  ],
+
+  "Ride Documents": [
+    {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2f101" },
+      "clientId": { "$oid": "60d5f4f8b87cd850b4c2e1a1" },
+      "taxiId": { "$oid": "60d5f4f8b87cd850b4c2e2b2" },
+      "startLocation": { "type": "Point", "coordinates": [ 47.5231, -18.9008 ] },
+      "endLocation": { "type": "Point", "coordinates": [ 47.5100, -18.9200 ] },
+      "distanceKm": 4.1,
+      "price": 12.50,
+      "status": "terminé",
+      "createdAt": { "$date": "2025-04-28T08:30:00.000Z" },
+      "updatedAt": { "$date": "2025-04-28T08:45:00.000Z" }
+    },
+     {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2f102" },
+      "clientId": { "$oid": "60d5f4f8b87cd850b4c2e3c3" },
+      "taxiId": { "$oid": "60d5f4f8b87cd850b4c2e4d4" },
+      "startLocation": { "type": "Point", "coordinates": [ 47.5220, -18.9098 ] },
+      "endLocation": { "type": "Point", "coordinates": [ 47.5236, -18.9170 ] },
+      "distanceKm": null,
+      "price": null,
+      "status": "annulé",
+      "createdAt": { "$date": "2025-04-28T09:10:00.000Z" },
+      "updatedAt": { "$date": "2025-04-28T09:15:00.000Z" }
+    },
+    {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2f103" },
+      "clientId": { "$oid": "60d5f4f8b87cd850b4c2e5e5" },
+      "taxiId": { "$oid": "60d5f4f8b87cd850b4c2e6f6" },
+      "startLocation": { "type": "Point", "coordinates": [ 47.5500, -18.8660 ] },
+      "endLocation": { "type": "Point", "coordinates": [ 47.5220, -18.9098 ] },
+      "distanceKm": 7.5,
+      "price": 25.00,
+      "status": "terminé",
+      "createdAt": { "$date": "2025-04-29T07:45:00.000Z" },
+      "updatedAt": { "$date": "2025-04-29T08:10:00.000Z" }
+    },
+     {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2f104" },
+      "clientId": { "$oid": "60d5f4f8b87cd850b4c2e1a1" },
+      "taxiId": { "$oid": "60d5f4f8b87cd850b4c2e4d4" },
+      "startLocation": { "type": "Point", "coordinates": [ 47.5313, -18.9066 ] },
+      "endLocation": { "type": "Point", "coordinates": [ 47.5236, -18.9170 ] },
+      "distanceKm": 3.2,
+      "price": null,
+      "status": "en cours",
+      "createdAt": { "$date": "2025-04-29T14:00:00.000Z" },
+      "updatedAt": { "$date": "2025-04-29T14:10:00.000Z" }
+    },
+    {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2f105" },
+      "clientId": { "$oid": "60d5f4f8b87cd850b4c2e3c3" },
+      "taxiId": { "$oid": "60d5f4f8b87cd850b4c2e2b2" },
+      "startLocation": { "type": "Point", "coordinates": [ 47.5250, -18.8900 ] },
+      "endLocation": { "type": "Point", "coordinates": [ 47.5220, -18.9098 ] },
+      "distanceKm": 2.8,
+      "price": 8.00,
+      "status": "terminé",
+      "createdAt": { "$date": "2025-04-30T10:00:00.000Z" },
+      "updatedAt": { "$date": "2025-04-30T10:10:00.000Z" }
+    },
+     {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2f106" },
+      "clientId": { "$oid": "60d5f4f8b87cd850b4c2e7a7" },
+      "taxiId": null,
+      "startLocation": { "type": "Point", "coordinates": [ 47.5100, -18.9200 ] },
+      "endLocation": { "type": "Point", "coordinates": [ 47.5236, -18.9170 ] },
+      "distanceKm": null,
+      "price": null,
+      "status": "en attente",
+      "createdAt": { "$date": "2025-04-30T18:00:00.000Z" },
+      "updatedAt": { "$date": "2025-04-30T18:00:00.000Z" }
+    },
+     {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2f107" },
+      "clientId": { "$oid": "60d5f4f8b87cd850b4c2e1a1" },
+      "taxiId": { "$oid": "60d5f4f8b87cd850b4c2e6f6" },
+      "startLocation": { "type": "Point", "coordinates": [ 47.5220, -18.9098 ] },
+      "endLocation": { "type": "Point", "coordinates": [ 47.5250, -18.8900 ] },
+      "distanceKm": 2.8,
+      "price": 7.50,
+      "status": "terminé",
+      "createdAt": { "$date": "2025-05-01T11:00:00.000Z" },
+      "updatedAt": { "$date": "2025-05-01T11:10:00.000Z" }
+    },
+     {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2f108" },
+      "clientId": { "$oid": "60d5f4f8b87cd850b4c2e3c3" },
+      "taxiId": { "$oid": "60d5f4f8b87cd850b4c2e2b2" },
+      "startLocation": { "type": "Point", "coordinates": [ 47.5313, -18.9066 ] },
+      "endLocation": { "type": "Point", "coordinates": [ 47.5500, -18.8660 ] },
+      "distanceKm": 6.0,
+      "price": 20.00,
+      "status": "terminé",
+      "createdAt": { "$date": "2025-05-01T15:00:00.000Z" },
+      "updatedAt": { "$date": "2025-05-01T15:25:00.000Z" }
+    },
+     {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2f109" },
+      "clientId": { "$oid": "60d5f4f8b87cd850b4c2e5e5" },
+      "taxiId": { "$oid": "60d5f4f8b87cd850b4c2e4d4" },
+      "startLocation": { "type": "Point", "coordinates": [ 47.5236, -18.9170 ] },
+      "endLocation": { "type": "Point", "coordinates": [ 47.5231, -18.9008 ] },
+      "distanceKm": 3.0,
+      "price": 9.00,
+      "status": "terminé",
+      "createdAt": { "$date": "2025-05-02T09:00:00.000Z" },
+      "updatedAt": { "$date": "2025-05-02T09:12:00.000Z" }
+    },
+     {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2f110" },
+      "clientId": { "$oid": "60d5f4f8b87cd850b4c2e7a7" },
+      "taxiId": { "$oid": "60d5f4f8b87cd850b4c2e2b2" },
+      "startLocation": { "type": "Point", "coordinates": [ 47.5100, -18.9200 ] },
+      "endLocation": { "type": "Point", "coordinates": [ 47.5220, -18.9098 ] },
+      "distanceKm": null,
+      "price": null,
+      "status": "en cours",
+      "createdAt": { "$date": "2025-05-02T17:30:00.000Z" },
+      "updatedAt": { "$date": "2025-05-02T17:40:00.000Z" }
+    },
+     {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2f111" },
+      "clientId": { "$oid": "60d5f4f8b87cd850b4c2e1a1" },
+      "taxiId": { "$oid": "60d5f4f8b87cd850b4c2e4d4" },
+      "startLocation": { "type": "Point", "coordinates": [ 47.4754, -18.8092 ] },
+      "endLocation": { "type": "Point", "coordinates": [ 47.5220, -18.9098 ] },
+      "distanceKm": 15.0,
+      "price": 50.00,
+      "status": "terminé",
+      "createdAt": { "$date": "2025-05-03T06:00:00.000Z" },
+      "updatedAt": { "$date": "2025-05-03T06:30:00.000Z" }
+    },
+     {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2f112" },
+      "clientId": { "$oid": "60d5f4f8b87cd850b4c2e3c3" },
+      "taxiId": { "$oid": "60d5f4f8b87cd850b4c2e6f6" },
+      "startLocation": { "type": "Point", "coordinates": [ 47.5220, -18.9098 ] },
+      "endLocation": { "type": "Point", "coordinates": [ 47.5313, -18.9066 ] },
+      "distanceKm": 2.0,
+      "price": 6.00,
+      "status": "terminé",
+      "createdAt": { "$date": "2025-05-03T10:00:00.000Z" },
+      "updatedAt": { "$date": "2025-05-03T10:08:00.000Z" }
+    },
+     {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2f113" },
+      "clientId": { "$oid": "60d5f4f8b87cd850b4c2e5e5" },
+      "taxiId": { "$oid": "60d5f4f8b87cd850b4c2e2b2" },
+      "startLocation": { "type": "Point", "coordinates": [ 47.5500, -18.8660 ] },
+      "endLocation": { "type": "Point", "coordinates": [ 47.5236, -18.9170 ] },
+      "distanceKm": null,
+      "price": null,
+      "status": "annulé",
+      "createdAt": { "$date": "2025-05-03T14:00:00.000Z" },
+      "updatedAt": { "$date": "2025-05-03T14:05:00.000Z" }
+    },
+    {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2f001" },
+      "clientId": { "$oid": "60d5f4f8b87cd850b4c2e1a1" },
+      "taxiId": { "$oid": "60d5f4f8b87cd850b4c2e2b2" },
+      "startLocation": { "type": "Point", "coordinates": [ 47.4754, -18.8092 ] },
+      "endLocation": { "type": "Point", "coordinates": [ 47.5220, -18.9098 ] },
+      "distanceKm": 15.0,
+      "price": 50.00,
+      "status": "terminé",
+      "createdAt": { "$date": "2025-05-04T11:00:00.000Z" },
+      "updatedAt": { "$date": "2025-05-04T11:30:00.000Z" }
+    },
+    {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2f002" },
+      "clientId": { "$oid": "60d5f4f8b87cd850b4c2e3c3" },
+      "taxiId": { "$oid": "60d5f4f8b87cd850b4c2e4d4" },
+      "startLocation": { "type": "Point", "coordinates": [ 47.5231, -18.9008 ] },
+      "endLocation": { "type": "Point", "coordinates": [ 47.5313, -18.9066 ] },
+      "distanceKm": 5.2,
+      "price": null,
+      "status": "en cours",
+      "createdAt": { "$date": "2025-05-04T11:15:00.000Z" },
+      "updatedAt": { "$date": "2025-05-04T11:30:00.000Z" }
+    },
+    {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2f003" },
+      "clientId": { "$oid": "60d5f4f8b87cd850b4c2e5e5" },
+      "taxiId": { "$oid": "60d5f4f8b87cd850b4c2e6f6" },
+      "startLocation": { "type": "Point", "coordinates": [ 47.5500, -18.8660 ] },
+      "endLocation": { "type": "Point", "coordinates": [ 47.5236, -18.9170 ] },
+      "distanceKm": 8.1,
+      "price": 28.50,
+      "status": "terminé",
+      "createdAt": { "$date": "2025-05-04T10:00:00.000Z" },
+      "updatedAt": { "$date": "2025-05-04T10:15:00.000Z" }
+    },
+    {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2f004" },
+      "clientId": { "$oid": "60d5f4f8b87cd850b4c2e7a7" },
+      "taxiId": null,
+      "startLocation": { "type": "Point", "coordinates": [ 47.5250, -18.8900 ] },
+      "endLocation": { "type": "Point", "coordinates": [ 47.5100, -18.9200 ] },
+      "distanceKm": null,
+      "price": null,
+      "status": "annulé",
+      "createdAt": { "$date": "2025-05-04T12:00:00.000Z" },
+      "updatedAt": { "$date": "2025-05-04T12:05:00.000Z" }
+    },
+     {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2f114" },
+      "clientId": { "$oid": "60d5f4f8b87cd850b4c2e1a1" },
+      "taxiId": { "$oid": "60d5f4f8b87cd850b4c2e4d4" },
+      "startLocation": { "type": "Point", "coordinates": [ 47.5220, -18.9098 ] },
+      "endLocation": { "type": "Point", "coordinates": [ 47.5231, -18.9008 ] },
+      "distanceKm": 2.0,
+      "price": 6.50,
+      "status": "terminé",
+      "createdAt": { "$date": "2025-05-04T09:30:00.000Z" },
+      "updatedAt": { "$date": "2025-05-04T09:40:00.000Z" }
+    },
+     {
+      "_id": { "$oid": "60d5f4f8b87cd850b4c2f115" },
+      "clientId": { "$oid": "60d5f4f8b87cd850b4c2e3c3" },
+      "taxiId": { "$oid": "60d5f4f8b87cd850b4c2e2b2" },
+      "startLocation": { "type": "Point", "coordinates": [ 47.5236, -18.9170 ] },
+      "endLocation": { "type": "Point", "coordinates": [ 47.5313, -18.9066 ] },
+      "distanceKm": 3.5,
+      "price": 9.00,
+      "status": "terminé",
+      "createdAt": { "$date": "2025-05-04T13:00:00.000Z" },
+      "updatedAt": { "$date": "2025-05-04T13:15:00.000Z" }
+    }
+  ]
+}

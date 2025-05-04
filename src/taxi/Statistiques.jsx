@@ -2,47 +2,12 @@ import React, { useState, useEffect } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { Calendar, Clock, Car, User, DollarSign, TrendingUp, AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
+import axios from "axios";
 
-// Données simulées pour les statistiques
-const STATS_DATA = {
-  daily: {
-    rides: 124,
-    revenue: 1860,
-    newCustomers: 18,
-    cancellations: 5
-  },
-  weekly: {
-    rides: 892,
-    revenue: 13380,
-    newCustomers: 126,
-    cancellations: 42
-  },
-  monthly: {
-    rides: 3720,
-    revenue: 55800,
-    newCustomers: 540,
-    cancellations: 180
-  }
-};
-
-const RIDE_DATA = [
-  { name: "Lun", rides: 120, revenue: 1800 },
-  { name: "Mar", rides: 150, revenue: 2250 },
-  { name: "Mer", rides: 180, revenue: 2700 },
-  { name: "Jeu", rides: 110, revenue: 1650 },
-  { name: "Ven", rides: 200, revenue: 3000 },
-  { name: "Sam", rides: 240, revenue: 3600 },
-  { name: "Dim", rides: 210, revenue: 3150 }
-];
-
-const DRIVER_DATA = [
-  { name: "Disponibles", value: 18 },
-  { name: "En course", value: 6 },
-  { name: "Indisponibles", value: 4 }
-];
-
+// Configuration des couleurs
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28"];
 
+// Composant TimeFilter
 const TimeFilter = ({ activeFilter, setActiveFilter }) => {
   const filters = ["daily", "weekly", "monthly"];
   
@@ -67,6 +32,7 @@ const TimeFilter = ({ activeFilter, setActiveFilter }) => {
   );
 };
 
+// Composant StatCard
 const StatCard = ({ icon, title, value, change }) => {
   const isPositive = change >= 0;
   
@@ -91,17 +57,157 @@ const StatCard = ({ icon, title, value, change }) => {
   );
 };
 
+// Fonctions utilitaires pour traiter les données
+const processData = (rides, users, taxis) => {
+  const now = new Date();
+  const today = new Date(now.setHours(0, 0, 0, 0));
+  const weekStart = new Date(today);
+  weekStart.setDate(today.getDate() - today.getDay());
+  const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+
+  // Formater la date selon le format de votre API
+  const formatDate = (date) => date.toISOString().split('T')[0];
+
+  // Filtrer les courses par période
+  const filterRides = (startDate, endDate = new Date()) => {
+    return rides.filter(ride => {
+      const rideDate = new Date(ride.createdAt);
+      return rideDate >= startDate && rideDate <= endDate;
+    });
+  };
+
+  // Calculer le revenu
+  const calculateRevenue = (rideList) => {
+    return rideList
+      .filter(ride => ride.status === "terminé" && ride.price)
+      .reduce((sum, ride) => sum + ride.price, 0);
+  };
+
+  // Compter les nouveaux clients
+  const countNewCustomers = (startDate) => {
+    return users.filter(user => 
+      new Date(user.createdAt) >= startDate && user.role === "client"
+    ).length;
+  };
+
+  // Compter les annulations
+  const countCancellations = (rideList) => {
+    return rideList.filter(ride => ride.status === "annulé").length;
+  };
+
+  // Préparer les données pour le graphique hebdomadaire
+  const prepareWeeklyData = () => {
+    const days = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"];
+    return days.map((day, index) => {
+      const dayStart = new Date(weekStart);
+      dayStart.setDate(dayStart.getDate() + index);
+      const dayEnd = new Date(dayStart);
+      dayEnd.setDate(dayEnd.getDate() + 1);
+
+      const dayRides = rides.filter(ride => {
+        const rideDate = new Date(ride.createdAt);
+        return rideDate >= dayStart && rideDate < dayEnd;
+      });
+
+      const revenue = calculateRevenue(dayRides);
+
+      return {
+        name: day,
+        rides: dayRides.length,
+        revenue: revenue
+      };
+    });
+  };
+
+  // Préparer les données des conducteurs
+  const prepareDriverData = () => {
+    const statusCount = {
+      disponible: 0,
+      occupé: 0,
+      "hors service": 0
+    };
+
+    taxis.forEach(taxi => {
+      statusCount[taxi.status] = (statusCount[taxi.status] || 0) + 1;
+    });
+
+    return [
+      { name: "Disponibles", value: statusCount.disponible },
+      { name: "En course", value: statusCount.occupé },
+      { name: "Indisponibles", value: statusCount["hors service"] }
+    ];
+  };
+
+  return {
+    stats: {
+      daily: {
+        rides: filterRides(today).length,
+        revenue: calculateRevenue(filterRides(today)),
+        newCustomers: countNewCustomers(today),
+        cancellations: countCancellations(filterRides(today))
+      },
+      weekly: {
+        rides: filterRides(weekStart).length,
+        revenue: calculateRevenue(filterRides(weekStart)),
+        newCustomers: countNewCustomers(weekStart),
+        cancellations: countCancellations(filterRides(weekStart))
+      },
+      monthly: {
+        rides: filterRides(monthStart).length,
+        revenue: calculateRevenue(filterRides(monthStart)),
+        newCustomers: countNewCustomers(monthStart),
+        cancellations: countCancellations(filterRides(monthStart))
+      }
+    },
+    weeklyChartData: prepareWeeklyData(),
+    driverChartData: prepareDriverData()
+  };
+};
+
+// Composant principal
 const StatisticsPage = () => {
   const [activeFilter, setActiveFilter] = useState("weekly");
-  const [loading, setLoading] = useState(false);
-  
-  // Simuler le chargement des données
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [processedData, setProcessedData] = useState(null);
+
+  // URLs des API (à adapter selon votre configuration)
+  const API_ENDPOINTS = {
+    taxis: 'http://localhost:5000/api/taxis',
+    users: 'http://localhost:5000/api/users',
+    rides: 'http://localhost:5000/api/rides'
+  };
+
+  // Charger les données depuis les APIs
   useEffect(() => {
-    setLoading(true);
-    const timer = setTimeout(() => setLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, [activeFilter]);
-  
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Récupérer toutes les données en parallèle
+        const [taxisRes, usersRes, ridesRes] = await Promise.all([
+          axios.get(API_ENDPOINTS.taxis),
+          axios.get(API_ENDPOINTS.users),
+          axios.get(API_ENDPOINTS.rides)
+        ]);
+
+        // Traiter les données reçues
+        const data = processData(ridesRes.data, usersRes.data, taxisRes.data);
+        setProcessedData(data);
+        
+      } catch (err) {
+        console.error("Erreur lors du chargement des données:", err);
+        setError("Erreur de chargement des données. Veuillez réessayer.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Afficher le chargement
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -109,11 +215,27 @@ const StatisticsPage = () => {
       </div>
     );
   }
-  
-  const currentStats = STATS_DATA[activeFilter];
-  
+
+  // Afficher les erreurs
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-64 text-red-500">
+        {error}
+      </div>
+    );
+  }
+
+  // Vérifier si les données sont prêtes
+  if (!processedData) {
+    return null;
+  }
+
+  const { stats, weeklyChartData, driverChartData } = processedData;
+  const currentStats = stats[activeFilter];
+
+
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 pt-20">
       <div className="flex justify-between items-center mb-8">
         <motion.h1 
           className="text-3xl font-bold text-gray-800"
@@ -141,7 +263,7 @@ const StatisticsPage = () => {
         <StatCard 
           icon={<DollarSign size={20} />} 
           title="Revenu total" 
-          value={`${currentStats.revenue} €`} 
+          value={`${currentStats.revenue?.toFixed(2) || '0.00'} €`} 
           change={12.3} 
         />
         <StatCard 
@@ -172,12 +294,12 @@ const StatisticsPage = () => {
           </h3>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={RIDE_DATA}>
+              <BarChart data={weeklyChartData}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="name" />
                 <YAxis yAxisId="left" orientation="left" stroke="#0088FE" />
                 <YAxis yAxisId="right" orientation="right" stroke="#FF8042" />
-                <Tooltip />
+                <Tooltip formatter={(value) => [`${value}`, value === weeklyChartData[0]?.rides ? "Courses" : "Revenu (€)"]} />
                 <Legend />
                 <Bar yAxisId="left" dataKey="rides" name="Courses" fill="#0088FE" radius={[4, 4, 0, 0]} />
                 <Bar yAxisId="right" dataKey="revenue" name="Revenu (€)" fill="#FF8042" radius={[4, 4, 0, 0]} />
@@ -200,7 +322,7 @@ const StatisticsPage = () => {
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
-                  data={DRIVER_DATA}
+                  data={driverChartData}
                   cx="50%"
                   cy="50%"
                   labelLine={false}
@@ -209,11 +331,11 @@ const StatisticsPage = () => {
                   dataKey="value"
                   label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                 >
-                  {DRIVER_DATA.map((entry, index) => (
+                  {driverChartData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip formatter={(value) => [value, "Conducteurs"]} />
                 <Legend />
               </PieChart>
             </ResponsiveContainer>
@@ -232,17 +354,17 @@ const StatisticsPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="p-4 bg-gray-50 rounded-lg">
             <h4 className="font-medium text-gray-700 mb-2">Heures chargées</h4>
-            <p className="text-2xl font-bold">17h-19h</p>
+            <p className="text-2xl font-bold">11h-13h</p>
             <p className="text-sm text-gray-500 mt-1">Pic d'activité</p>
           </div>
           <div className="p-4 bg-gray-50 rounded-lg">
             <h4 className="font-medium text-gray-700 mb-2">Durée moyenne</h4>
-            <p className="text-2xl font-bold">23 min</p>
+            <p className="text-2xl font-bold">15 min</p>
             <p className="text-sm text-gray-500 mt-1">Par course</p>
           </div>
           <div className="p-4 bg-gray-50 rounded-lg">
             <h4 className="font-medium text-gray-700 mb-2">Note moyenne</h4>
-            <p className="text-2xl font-bold">4.7/5</p>
+            <p className="text-2xl font-bold">4.5/5</p>
             <p className="text-sm text-gray-500 mt-1">Satisfaction clients</p>
           </div>
         </div>
