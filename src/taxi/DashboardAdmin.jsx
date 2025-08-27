@@ -84,7 +84,7 @@ const Dashboard = () => {
           stats: [
             { icon: <CarFront className="text-green-600 w-6 h-6" />, title: "Taxis actifs", value: activeTaxisCount },
             { icon: <Activity className="text-blue-600 w-6 h-6" />, title: "Courses aujourd’hui", value: dailyStats.totalRidesToday },
-            { icon: <DollarSign className="text-yellow-600 w-6 h-6" />, title: "Revenus du jour", value: `${dailyStats.totalRevenueToday !== undefined ? dailyStats.totalRevenueToday.toFixed(2) : 'N/A'} €` }, // Format revenue, handle undefined
+            { icon: <DollarSign className="text-yellow-600 w-6 h-6" />, title: "Revenus du jour", value: `${dailyStats.totalRevenueToday !== undefined ? dailyStats.totalRevenueToday.toFixed(2) : 'N/A'} AR` }, // Format revenue, handle undefined
             { icon: <Users className="text-purple-600 w-6 h-6" />, title: "Clients", value: totalClients },
           ],
           taxis: taxisForMap, // Use processed taxi data for the map

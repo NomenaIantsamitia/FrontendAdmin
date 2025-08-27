@@ -7,18 +7,18 @@ export default function NavbarAdmin() {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const links = [
-    { name: 'Tableau de bord', to: '/dashboard', icon: <LayoutDashboard size={20} /> },
-    { name: 'Statistique', to: '/statistics', icon: <BarChart size={20} /> },
-    { name: 'Chauffeur', to: '/chauffeurs', icon: <User size={20} /> },
-    { name: 'Client', to: '/clients', icon: <Users size={20} /> },
-    { name: 'Déconnexion', to: '/logout', icon: <LogOut size={20} /> },
+    { name: 'Tableau de bord', to: '/admin/dashboard', icon: <LayoutDashboard size={20} /> },
+    { name: 'Statistique', to: '/admin/statistics', icon: <BarChart size={20} /> },
+    { name: 'Chauffeur', to: '/admin/chauffeurs', icon: <User size={20} /> },
+    { name: 'Client', to: '/admin/clients', icon: <Users size={20} /> },
+  
   ];
 
   return (
     <nav className="bg-[#0f172a] text-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex justify-between h-16 items-center fixed top-0 left-0 right-0 z-50 bg-[#0f172a] px-4">
-          <div className="text-2xl font-bold text-yellow-400">Taxi Admin</div>
+          <div className="text-2xl font-bold text-yellow-400">Alaivo Admin</div>
           <div className="hidden md:flex space-x-6">
             {links.map((link) => (
               <NavLink

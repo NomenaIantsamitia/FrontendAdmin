@@ -263,7 +263,7 @@ const StatisticsPage = () => {
         <StatCard 
           icon={<DollarSign size={20} />} 
           title="Revenu total" 
-          value={`${currentStats.revenue?.toFixed(2) || '0.00'} €`} 
+          value={`${currentStats.revenue?.toFixed(2) || '0.00'} AR`} 
           change={12.3} 
         />
         <StatCard 
